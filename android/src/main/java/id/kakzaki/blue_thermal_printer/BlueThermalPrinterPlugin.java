@@ -575,6 +575,7 @@ public class BlueThermalPrinterPlugin implements FlutterPlugin, ActivityAware,Me
     }
 
     try {
+      THREAD.write(PrinterCommands.ENC_LAT1);
       THREAD.write(message.getBytes());
       result.success(true);
     } catch (Exception ex) {
@@ -648,6 +649,7 @@ public class BlueThermalPrinterPlugin implements FlutterPlugin, ActivityAware,Me
           break;
       }
       if(charset != null) {
+        THREAD.write(PrinterCommands.ENC_LAT1);
         THREAD.write(message.getBytes(charset));
       } else {
         THREAD.write(message.getBytes());
@@ -695,6 +697,7 @@ public class BlueThermalPrinterPlugin implements FlutterPlugin, ActivityAware,Me
         line = String.format(format, msg1, msg2);
       }
       if(charset != null) {
+        THREAD.write(PrinterCommands.ENC_LAT1);
         THREAD.write(line.getBytes(charset));
       } else {
         THREAD.write(line.getBytes());
@@ -742,6 +745,7 @@ public class BlueThermalPrinterPlugin implements FlutterPlugin, ActivityAware,Me
         line = String.format(format, msg1, msg2, msg3);
       }
       if(charset != null) {
+        THREAD.write(PrinterCommands.ENC_LAT1);
         THREAD.write(line.getBytes(charset));
       } else {
         THREAD.write(line.getBytes());
@@ -789,6 +793,7 @@ public class BlueThermalPrinterPlugin implements FlutterPlugin, ActivityAware,Me
         line = String.format(format, msg1, msg2,msg3,msg4);
       }
       if(charset != null) {
+        THREAD.write(PrinterCommands.ENC_LAT1);
         THREAD.write(line.getBytes(charset));
       } else {
         THREAD.write(line.getBytes());
