@@ -575,7 +575,7 @@ public class BlueThermalPrinterPlugin implements FlutterPlugin, ActivityAware,Me
     }
 
     try {
-      THREAD.write(PrinterCommands.ENC_LAT1);
+      THREAD.write(PrinterCommands.ENC_ESP2);
       THREAD.write(message.getBytes());
       result.success(true);
     } catch (Exception ex) {
@@ -649,7 +649,7 @@ public class BlueThermalPrinterPlugin implements FlutterPlugin, ActivityAware,Me
           break;
       }
       if(charset != null) {
-        THREAD.write(PrinterCommands.ENC_ESP1);
+        THREAD.write(PrinterCommands.ENC_ESP2);
         THREAD.write(message.getBytes(charset));
       } else {
         THREAD.write(message.getBytes());
