@@ -64,6 +64,8 @@ public class PrinterCommands {
     public static final byte[] PRINTE_TEST = new byte[] { 0x1D, 0x28, 0x41 };
 
     /**************** Encoding *******************/
-    static final byte [] ENC_LAT1 = new byte[] {0x1B, 0x74, 0x16}; //Bixolon latin1
+    static final byte [] ENC_ESP1 = new byte[] {0x1B, 0x52, 0x07}; //Bixolon esp1
+    static final byte [] ENC_ESP2 = new byte[] {0x1B, 0x52, 0x11}; //Bixolon esp2
+    static final byte [] ENC_LAT1 = new byte[] {0x1B, 0x74, 0x16}; //Bixolon lat1
     /*********************************************/
 }
