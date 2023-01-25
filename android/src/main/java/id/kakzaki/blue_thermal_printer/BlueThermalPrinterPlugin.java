@@ -607,6 +607,8 @@ public class BlueThermalPrinterPlugin implements FlutterPlugin, ActivityAware,Me
     byte[] bb3 = new byte[] { 0x1B, 0x21, 0x10 }; // 3- bold with large text
     byte[] bb4 = new byte[] { 0x1B, 0x21, 0x30 }; // 4- strong text
     byte[] bb5 = new byte[] { 0x1B, 0x21, 0x50 }; // 5- extra strong text
+    byte[] ulon = new byte[] { 0x1B, 0x2D, 0x01}; // turn on underline
+    byte[] uloff = new byte [] { 0x1B, 0x2D, 0x00 }; // turn off underline
     if (THREAD == null) {
       result.error("write_error", "not connected", null);
       return;
@@ -648,7 +650,7 @@ public class BlueThermalPrinterPlugin implements FlutterPlugin, ActivityAware,Me
           break;
       }
       if(charset != null) {
-        THREAD.write(PrinterCommands.ENC_LAT9);
+        THREAD.write(PrinterCommands.ENC_EURO);
         THREAD.write(message.getBytes(charset));
       } else {
         THREAD.write(message.getBytes());
@@ -696,7 +698,7 @@ public class BlueThermalPrinterPlugin implements FlutterPlugin, ActivityAware,Me
         line = String.format(format, msg1, msg2);
       }
       if(charset != null) {
-        THREAD.write(PrinterCommands.ENC_LAT9);
+        THREAD.write(PrinterCommands.ENC_EURO);
         THREAD.write(line.getBytes(charset));
       } else {
         THREAD.write(line.getBytes());
@@ -744,7 +746,7 @@ public class BlueThermalPrinterPlugin implements FlutterPlugin, ActivityAware,Me
         line = String.format(format, msg1, msg2, msg3);
       }
       if(charset != null) {
-        THREAD.write(PrinterCommands.ENC_LAT9);
+        THREAD.write(PrinterCommands.ENC_EURO);
         THREAD.write(line.getBytes(charset));
       } else {
         THREAD.write(line.getBytes());
@@ -792,7 +794,7 @@ public class BlueThermalPrinterPlugin implements FlutterPlugin, ActivityAware,Me
         line = String.format(format, msg1, msg2,msg3,msg4);
       }
       if(charset != null) {
-        THREAD.write(PrinterCommands.ENC_LAT9);
+        THREAD.write(PrinterCommands.ENC_EURO);
         THREAD.write(line.getBytes(charset));
       } else {
         THREAD.write(line.getBytes());
@@ -873,7 +875,7 @@ public class BlueThermalPrinterPlugin implements FlutterPlugin, ActivityAware,Me
         THREAD.write(PrinterCommands.ESC_ALIGN_CENTER);
         THREAD.write(command);
       } else {
-        Log.e("Print Photo error", "the file isn't exists");
+        Log.e("Print Photo error", "the file doesn't exist");
       }
       result.success(true);
     } catch (Exception ex) {
@@ -894,7 +896,7 @@ public class BlueThermalPrinterPlugin implements FlutterPlugin, ActivityAware,Me
         THREAD.write(PrinterCommands.ESC_ALIGN_CENTER);
         THREAD.write(command);
       } else {
-        Log.e("Print Photo error", "the file isn't exists");
+        Log.e("Print Photo error", "the file doesn't exist");
       }
       result.success(true);
     } catch (Exception ex) {

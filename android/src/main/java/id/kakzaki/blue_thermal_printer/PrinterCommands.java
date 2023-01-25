@@ -12,10 +12,7 @@ public class PrinterCommands {
     public static final byte DLE = 0x10;
     public static final byte GS = 0x1D;
     public static final byte FS = 0x1C;
-    public static final byte STX = 0x02;
-    public static final byte US = 0x1F;
     public static final byte CAN = 0x18;
-    public static final byte CLR = 0x0C;
     public static final byte EOT = 0x04;
 
     public static final byte[] INIT = {27, 64};
@@ -32,7 +29,7 @@ public class PrinterCommands {
 
     public static byte[] SELECT_CYRILLIC_CHARACTER_CODE_TABLE = {0x1B, 0x74, 0x11};
 
-    public static byte[] SELECT_BIT_IMAGE_MODE = {0x1B, 0x2A, 33, -128, 0};
+    public static byte[] SELECT_BIT_IMAGE_MODE = { 0x1B, 0x2A, 33, -128, 0 }; //{0x1B, 0x2A, 33, 255, 3};
     public static byte[] SET_LINE_SPACING_24 = {0x1B, 0x33, 24};
     public static byte[] SET_LINE_SPACING_30 = {0x1B, 0x33, 30};
 
@@ -68,5 +65,6 @@ public class PrinterCommands {
     static final byte [] ENC_ESP2 = new byte[] {0x1B, 0x52, 0x0B}; //Bixolon esp2
     static final byte [] ENC_LAT1 = new byte[] {0x1B, 0x74, 0x10}; //Bixolon lat1
     static final byte [] ENC_LAT9 = new byte[] {0x1B, 0x74, 0x30}; //Bixolon lat9
+    static final byte [] ENC_EURO = new byte[] {0x1B, 0x74, 0x14}; //Bixolon euro
     /*********************************************/
 }
