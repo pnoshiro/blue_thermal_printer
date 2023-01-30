@@ -21,7 +21,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.util.Log;
-import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.Looper;
 
@@ -81,8 +80,8 @@ public class BlueThermalPrinterPlugin implements FlutterPlugin, ActivityAware,Me
 
   private Activity activity;
 
-  private ExecutorService executor = Executors.newSingleThreadExecutor();
-  private Handler handler = new Handler(Looper.getMainLooper());
+  ExecutorService executor = Executors.newSingleThreadExecutor();
+  Handler handler = new Handler(Looper.getMainLooper());
 
   public BlueThermalPrinterPlugin() {
   }
