@@ -35,6 +35,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
 import io.flutter.embedding.engine.plugins.FlutterPlugin;
 import io.flutter.embedding.engine.plugins.activity.ActivityAware;
@@ -78,6 +80,9 @@ public class BlueThermalPrinterPlugin implements FlutterPlugin, ActivityAware,Me
   private BluetoothManager mBluetoothManager;
 
   private Activity activity;
+
+  private ExecutorService executor = Executors.newSingleThreadExecutor();
+  private Handler handler = new Handler(Looper.getMainLooper());
 
   public BlueThermalPrinterPlugin() {
   }
@@ -463,13 +468,16 @@ public class BlueThermalPrinterPlugin implements FlutterPlugin, ActivityAware,Me
   }
 
 
+
   /**
    * @param result  result
    * @param address address
    */
   private void isDeviceConnected(Result result, String address) {
 
-    AsyncTask.execute(() -> {
+    executor.execute(() -> {
+      
+      handler.post(() -> {
       try {
         BluetoothDevice device = mBluetoothAdapter.getRemoteDevice(address);
 
@@ -488,7 +496,7 @@ public class BlueThermalPrinterPlugin implements FlutterPlugin, ActivityAware,Me
         Log.e(TAG, ex.getMessage(), ex);
         result.error("connect_error", ex.getMessage(), exceptionToString(ex));
       }
-    });
+    });});
   }
 
   private String exceptionToString(Exception ex) {
@@ -508,38 +516,40 @@ public class BlueThermalPrinterPlugin implements FlutterPlugin, ActivityAware,Me
       result.error("connect_error", "already connected", null);
       return;
     }
-    AsyncTask.execute(() -> {
-      try {
-        BluetoothDevice device = mBluetoothAdapter.getRemoteDevice(address);
-
-        if (device == null) {
-          result.error("connect_error", "device not found", null);
-          return;
-        }
-
-        BluetoothSocket socket = device.createRfcommSocketToServiceRecord(MY_UUID);
-
-        if (socket == null) {
-          result.error("connect_error", "socket connection not established", null);
-          return;
-        }
-
-        // Cancel bt discovery, even though we didn't start it
-        mBluetoothAdapter.cancelDiscovery();
-
+    executor.execute(() -> {
+      handler.post(() -> {
         try {
-          socket.connect();
-          THREAD = new ConnectedThread(socket);
-          THREAD.start();
-          result.success(true);
+          BluetoothDevice device = mBluetoothAdapter.getRemoteDevice(address);
+  
+          if (device == null) {
+            result.error("connect_error", "device not found", null);
+            return;
+          }
+  
+          BluetoothSocket socket = device.createRfcommSocketToServiceRecord(MY_UUID);
+  
+          if (socket == null) {
+            result.error("connect_error", "socket connection not established", null);
+            return;
+          }
+  
+          // Cancel bt discovery, even though we didn't start it
+          mBluetoothAdapter.cancelDiscovery();
+  
+          try {
+            socket.connect();
+            THREAD = new ConnectedThread(socket);
+            THREAD.start();
+            result.success(true);
+          } catch (Exception ex) {
+            Log.e(TAG, ex.getMessage(), ex);
+            result.error("connect_error", ex.getMessage(), exceptionToString(ex));
+          }
         } catch (Exception ex) {
           Log.e(TAG, ex.getMessage(), ex);
           result.error("connect_error", ex.getMessage(), exceptionToString(ex));
         }
-      } catch (Exception ex) {
-        Log.e(TAG, ex.getMessage(), ex);
-        result.error("connect_error", ex.getMessage(), exceptionToString(ex));
-      }
+      });
     });
   }
 
@@ -552,15 +562,17 @@ public class BlueThermalPrinterPlugin implements FlutterPlugin, ActivityAware,Me
       result.error("disconnection_error", "not connected", null);
       return;
     }
-    AsyncTask.execute(() -> {
-      try {
-        THREAD.cancel();
-        THREAD = null;
-        result.success(true);
-      } catch (Exception ex) {
-        Log.e(TAG, ex.getMessage(), ex);
-        result.error("disconnection_error", ex.getMessage(), exceptionToString(ex));
-      }
+    executor.execute(() -> {
+      handler.post(() -> {
+        try {
+          THREAD.cancel();
+          THREAD = null;
+          result.success(true);
+        } catch (Exception ex) {
+          Log.e(TAG, ex.getMessage(), ex);
+          result.error("disconnection_error", ex.getMessage(), exceptionToString(ex));
+        }
+      });
     });
   }
 
