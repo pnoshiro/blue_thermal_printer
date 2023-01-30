@@ -662,7 +662,7 @@ public class BlueThermalPrinterPlugin implements FlutterPlugin, ActivityAware,Me
       }
       if(charset != null) {
         THREAD.write(PrinterCommands.ENC_EURO);
-        THREAD.write(message.getBytes(IBM00858));
+        THREAD.write(message.getBytes(charset));
       } else {
         THREAD.write(message.getBytes());
       }
@@ -710,7 +710,7 @@ public class BlueThermalPrinterPlugin implements FlutterPlugin, ActivityAware,Me
       }
       if(charset != null) {
         THREAD.write(PrinterCommands.ENC_EURO);
-        THREAD.write(line.getBytes(IBM00858));
+        THREAD.write(line.getBytes(charset));
       } else {
         THREAD.write(line.getBytes());
       }
@@ -758,7 +758,7 @@ public class BlueThermalPrinterPlugin implements FlutterPlugin, ActivityAware,Me
       }
       if(charset != null) {
         THREAD.write(PrinterCommands.ENC_EURO);
-        THREAD.write(line.getBytes(IBM00858));
+        THREAD.write(line.getBytes(charset));
       } else {
         THREAD.write(line.getBytes());
       }
@@ -806,7 +806,7 @@ public class BlueThermalPrinterPlugin implements FlutterPlugin, ActivityAware,Me
       }
       if(charset != null) {
         THREAD.write(PrinterCommands.ENC_EURO);
-        THREAD.write(line.getBytes(IBM00858));
+        THREAD.write(line.getBytes(charset));
       } else {
         THREAD.write(line.getBytes());
       }
