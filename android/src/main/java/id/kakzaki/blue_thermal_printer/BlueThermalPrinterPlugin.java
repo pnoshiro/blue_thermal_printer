@@ -21,6 +21,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.util.Log;
+import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.Looper;
 
@@ -34,8 +35,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+//import java.util.Extensions
+//import java.util.Extension
 
 import io.flutter.embedding.engine.plugins.FlutterPlugin;
 import io.flutter.embedding.engine.plugins.activity.ActivityAware;
@@ -80,8 +81,8 @@ public class BlueThermalPrinterPlugin implements FlutterPlugin, ActivityAware,Me
 
   private Activity activity;
 
-  ExecutorService executor = Executors.newSingleThreadExecutor();
-  Handler handler = new Handler(Looper.getMainLooper());
+  //ExecutorService executor = Executors.newSingleThreadExecutor();
+  //Handler handler = new Handler(Looper.getMainLooper());
 
   public BlueThermalPrinterPlugin() {
   }
@@ -474,9 +475,7 @@ public class BlueThermalPrinterPlugin implements FlutterPlugin, ActivityAware,Me
    */
   private void isDeviceConnected(Result result, String address) {
 
-    executor.execute(() -> {
-      
-      handler.post(() -> {
+    AsyncTask.execute(() -> {
       try {
         BluetoothDevice device = mBluetoothAdapter.getRemoteDevice(address);
 
@@ -495,7 +494,7 @@ public class BlueThermalPrinterPlugin implements FlutterPlugin, ActivityAware,Me
         Log.e(TAG, ex.getMessage(), ex);
         result.error("connect_error", ex.getMessage(), exceptionToString(ex));
       }
-    });});
+    });
   }
 
   private String exceptionToString(Exception ex) {
@@ -515,9 +514,8 @@ public class BlueThermalPrinterPlugin implements FlutterPlugin, ActivityAware,Me
       result.error("connect_error", "already connected", null);
       return;
     }
-    executor.execute(() -> {
-      handler.post(() -> {
-        try {
+    AsyncTask.execute(() -> {
+      try {
           BluetoothDevice device = mBluetoothAdapter.getRemoteDevice(address);
   
           if (device == null) {
@@ -549,7 +547,6 @@ public class BlueThermalPrinterPlugin implements FlutterPlugin, ActivityAware,Me
           result.error("connect_error", ex.getMessage(), exceptionToString(ex));
         }
       });
-    });
   }
 
   /**
@@ -561,9 +558,8 @@ public class BlueThermalPrinterPlugin implements FlutterPlugin, ActivityAware,Me
       result.error("disconnection_error", "not connected", null);
       return;
     }
-    executor.execute(() -> {
-      handler.post(() -> {
-        try {
+    AsyncTask.execute(() -> {
+      try {
           THREAD.cancel();
           THREAD = null;
           result.success(true);
@@ -572,7 +568,6 @@ public class BlueThermalPrinterPlugin implements FlutterPlugin, ActivityAware,Me
           result.error("disconnection_error", ex.getMessage(), exceptionToString(ex));
         }
       });
-    });
   }
 
   /**
