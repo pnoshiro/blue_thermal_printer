@@ -653,7 +653,7 @@ public class BlueThermalPrinterPlugin implements FlutterPlugin, ActivityAware,Me
           break;
       }
       THREAD.write(PrinterCommands.ENC_LAT9);
-      THREAD.write(message.getBytes(Charset.forName("ISO-8859-1")));
+      THREAD.write(message.getBytes(Charset.forName("ISO-8859-15")));
       THREAD.write(PrinterCommands.FEED_LINE);
       result.success(true);
     } catch (Exception ex) {
@@ -697,7 +697,7 @@ public class BlueThermalPrinterPlugin implements FlutterPlugin, ActivityAware,Me
         line = String.format(format, msg1, msg2);
       }
       THREAD.write(PrinterCommands.ENC_LAT9);
-      THREAD.write(line.getBytes(Charset.forName("ISO-8859-1")));
+      THREAD.write(line.getBytes(Charset.forName("ISO-8859-15")));
       result.success(true);
     } catch (Exception ex) {
       Log.e(TAG, ex.getMessage(), ex);
@@ -741,7 +741,7 @@ public class BlueThermalPrinterPlugin implements FlutterPlugin, ActivityAware,Me
         line = String.format(format, msg1, msg2, msg3);
       }
       THREAD.write(PrinterCommands.ENC_LAT9);
-      THREAD.write(line.getBytes(Charset.forName("ISO-8859-1")));
+      THREAD.write(line.getBytes(Charset.forName("ISO-8859-15")));
       result.success(true);
     } catch (Exception ex) {
       Log.e(TAG, ex.getMessage(), ex);
@@ -785,7 +785,7 @@ public class BlueThermalPrinterPlugin implements FlutterPlugin, ActivityAware,Me
         line = String.format(format, msg1, msg2,msg3,msg4);
       }
       THREAD.write(PrinterCommands.ENC_LAT9);
-      THREAD.write(line.getBytes(Charset.forName("ISO-8859-1")));
+      THREAD.write(line.getBytes(Charset.forName("ISO-8859-15")));
       result.success(true);
     } catch (Exception ex) {
       Log.e(TAG, ex.getMessage(), ex);
