@@ -65,6 +65,5 @@ public class PrinterCommands {
     static final byte [] ENC_ESP2 = new byte[] {0x1B, 0x52, 0x0B}; //Bixolon esp2
     static final byte [] ENC_LAT1 = new byte[] {0x1B, 0x74, 0x10}; //Bixolon lat1
     static final byte [] ENC_LAT9 = new byte[] {0x1B, 0x74, 0x30}; //Bixolon lat9
-    static final byte [] ENC_EURO = new byte[] {0x1B, 0x74, 0x14}; //Bixolon euro
     /*********************************************/
 }
