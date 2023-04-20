@@ -1,5 +1,7 @@
 package id.kakzaki.blue_thermal_printer;
 
+import PrinterCommands;
+
 import android.graphics.Bitmap;
 import android.util.Log;
 
@@ -17,6 +19,47 @@ public class Utils {
     private static String[] binaryArray = { "0000", "0001", "0010", "0011",
             "0100", "0101", "0110", "0111", "1000", "1001", "1010", "1011",
             "1100", "1101", "1110", "1111" };
+
+    public static byte[] processBitmap (Bitmap bmp)
+    {
+        int imgWidth = bmp.getWidth();
+        int imgHeight = bmp.getHeight();
+        int bufWidth = imgWidth;
+        if(bufWidth % 8 != 0)
+        {
+            bufWidth += (8 - (bufWidth % 8));
+        }
+        if(bufWidth > 384) throw new Exception("Image is superior to 384px wide");
+        if(imgHeight > 1662) throw new Exception("Image is superior to 1662px high");
+        byte[] pictureData = new byte[imgWidth * imgHeight / 8];
+        for(int index = 0; index < pictureData.length; index++)
+        {
+            int y = index / bufWidth;
+            for(int pixel = 0; pixel < 7; pixel++)
+            {
+                int x = index % bufWidth;
+                byte value = 0;
+                if(x + pixel < bufWidth)
+                {
+                    int color = bmp.getPixel(x, y);
+                    int r = (color >> 16) & 0xff;
+                    int g = (color >> 8) & 0xff;
+                    int b = color & 0xff;
+
+                    byte luminance = (byte)((cr * 299 + g * 587 + b * 114) / 1000);
+                    
+                    if((luminance & 0x80) == 0)
+                    {
+                        value |= 1;
+                    }
+                }
+                value = value << 1;
+            }
+            pictureData[index] = value;
+
+        }
+        return PrinterCommands.print_bitmap(pictureData);
+    }
 
     public static byte[] decodeBitmap(Bitmap bmp){
         int bmpWidth = bmp.getWidth();

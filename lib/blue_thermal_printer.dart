@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:typed_data';
 
 import 'package:flutter/services.dart';
 
@@ -27,7 +26,7 @@ class BlueThermalPrinter {
   static const EventChannel _stateChannel =
       const EventChannel('$namespace/state');
 
-  final StreamController<MethodCall> _methodStreamController =
+  StreamController<MethodCall> get _methodStreamController =>
       new StreamController.broadcast();
 
   //Stream<MethodCall> get _methodStream => _methodStreamController.stream;
@@ -105,7 +104,7 @@ class BlueThermalPrinter {
   ///paperCut()
   Future<dynamic> paperCut() => _channel.invokeMethod('paperCut');
 
-  ///drawerPin5()
+  ///drawerPin2()
   Future<dynamic> drawerPin2() => _channel.invokeMethod('drawerPin2');
 
   ///drawerPin5()

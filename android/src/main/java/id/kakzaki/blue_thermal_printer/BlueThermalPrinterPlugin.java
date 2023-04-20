@@ -860,7 +860,7 @@ public class BlueThermalPrinterPlugin implements FlutterPlugin, ActivityAware,Me
       if (bmp != null) {
         byte[] command = Utils.decodeBitmap(bmp);
         THREAD.write(PrinterCommands.ESC_ALIGN_CENTER);
-        THREAD.write(command);
+        THREAD.write(Utils.decodeBitmap(bmp));
       } else {
         Log.e("Print Photo error", "the file doesn't exist");
       }
