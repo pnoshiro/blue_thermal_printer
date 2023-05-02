@@ -108,6 +108,9 @@ class BlueThermalPrinter {
   ///drawerPin5()
   Future<dynamic> drawerPin2() => _channel.invokeMethod('drawerPin2');
 
+  Future<dynamic> initializePrinter() =>
+      _channel.invokeMethod('initializePrinter');
+
   ///drawerPin5()
   Future<dynamic> drawerPin5() => _channel.invokeMethod('drawerPin5');
 
