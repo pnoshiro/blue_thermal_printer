@@ -29,7 +29,7 @@ public class PrinterCommands {
 
     public static final byte[] SELECT_CYRILLIC_CHARACTER_CODE_TABLE = {ESC, 0x74, 0x11};
 
-    public static final byte[] SELECT_BIT_IMAGE_MODE = {ESC, 0x2A, 0x21, 0xFF, 0x00 }; //{0x1B, 0x2A, 33, 0, 2};
+    public static final byte[] SELECT_BIT_IMAGE_MODE = {ESC, 0x2A, 0x21, (byte)0xFF, 0x00 }; //{0x1B, 0x2A, 33, 0, 2};
     public static final byte[] SET_LINE_SPACING = {ESC, 0x33};
 
     public static final byte[] TRANSMIT_DLE_PRINTER_STATUS = {DLE, EOT, 0x01};
@@ -38,8 +38,7 @@ public class PrinterCommands {
     public static final byte[] TRANSMIT_DLE_ROLL_PAPER_SENSOR_STATUS = {DLE, EOT, 0x04};
 
     public static final byte[] ESC_FONT_COLOR_DEFAULT = new byte[] { ESC, 0x72,0x00 };
-    public static final byte[] FS_FONT_ALIGN = new byte[] { FS, 0x21, 0x01, 0x1B,
-            0x21, 0x01 };
+    public static final byte[] FS_FONT_ALIGN = new byte[] { FS, 0x21, 0x01, 0x1B, 0x21, 0x01 };
     public static final byte[] ESC_ALIGN_LEFT = new byte[] { ESC, 0x61, 0x00 };
     public static final byte[] ESC_ALIGN_RIGHT = new byte[] { ESC, 0x61, 0x02 };
     public static final byte[] ESC_ALIGN_CENTER = new byte[] { ESC, 0x61, 0x01 };
