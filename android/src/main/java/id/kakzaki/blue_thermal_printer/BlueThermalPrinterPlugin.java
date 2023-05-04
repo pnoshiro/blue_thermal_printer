@@ -366,7 +366,7 @@ public class BlueThermalPrinterPlugin implements FlutterPlugin, ActivityAware,Me
           if(!arguments.containsKey("textToQR")) {result.error("invalid_argument", "argument 'textToQR' not found", null); break;}
           if(!arguments.containsKey("vendor")) {result.error("invalid_argument", "argument 'vendor' not found", null); break;}
           String textToQR = (String) arguments.get("textToQR");
-          String vendor = arguments.get("vendor");
+          String vendor = (String)arguments.get("vendor");
           int width = (int) arguments.get("width");
           int height = (int) arguments.get("height");
           int align = (int) arguments.get("align");
