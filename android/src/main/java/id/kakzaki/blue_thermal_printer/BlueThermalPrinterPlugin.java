@@ -21,7 +21,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.util.Log;
-import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.Looper;
 
@@ -39,6 +38,7 @@ import java.util.Map;
 import java.util.UUID;
 //import java.util.Extensions
 //import java.util.Extension
+import java.util.concurrent.Executors;
 
 import io.flutter.embedding.engine.plugins.FlutterPlugin;
 import io.flutter.embedding.engine.plugins.activity.ActivityAware;
@@ -367,11 +367,10 @@ public class BlueThermalPrinterPlugin implements FlutterPlugin, ActivityAware,Me
           if(!arguments.containsKey("vendor")) {result.error("invalid_argument", "argument 'vendor' not found", null); break;}
           String textToQR = (String) arguments.get("textToQR");
           String vendor = arguments.get("vendor");
-          int width = (int) arguments.get("vendor");
           int width = (int) arguments.get("width");
           int height = (int) arguments.get("height");
           int align = (int) arguments.get("align");
-          printQRcodeVendorSpecific(result, vendor, textToQR, width, height, align);
+          printQRCodeVendorSpecific(result, vendor, textToQR, width, height, align);
         break;
       case "printLeftRight":
         if (arguments.containsKey("string1")) {
@@ -489,7 +488,7 @@ public class BlueThermalPrinterPlugin implements FlutterPlugin, ActivityAware,Me
    */
   private void isDeviceConnected(Result result, String address) {
 
-    AsyncTask.execute(() -> {
+    Executors.newSingleThreadExecutor().execute(() -> {
       try {
         BluetoothDevice device = mBluetoothAdapter.getRemoteDevice(address);
 
@@ -528,7 +527,7 @@ public class BlueThermalPrinterPlugin implements FlutterPlugin, ActivityAware,Me
       result.error("connect_error", "already connected", null);
       return;
     }
-    AsyncTask.execute(() -> {
+    Executors.newSingleThreadExecutor().execute(() -> {
       try {
           BluetoothDevice device = mBluetoothAdapter.getRemoteDevice(address);
   
@@ -572,7 +571,7 @@ public class BlueThermalPrinterPlugin implements FlutterPlugin, ActivityAware,Me
       result.error("disconnection_error", "not connected", null);
       return;
     }
-    AsyncTask.execute(() -> {
+    Executors.newSingleThreadExecutor().execute(() -> {
       try {
           THREAD.cancel();
           THREAD = null;
@@ -988,8 +987,8 @@ public class BlueThermalPrinterPlugin implements FlutterPlugin, ActivityAware,Me
       byte[] correction = PrinterCommands.BIXOLON_QR_ERROR_CORRECTION_LEVEL_L;
       byte[] data = textToQR.getBytes();
       byte[] storeData = PrinterCommands.BIXOLON_QR_SAVE_STORAGE;
-      storeData[3] = textToQR.length() & 0xFF;
-      storeData[4] = (textToQR.length() >> 8) & 0xFF;
+      storeData[3] = (byte)(textToQR.length() & 0xFF);
+      storeData[4] = (byte)((textToQR.length() >> 8) & 0xFF);
       byte[] print = PrinterCommands.BIXOLON_QR_ENCODE_PRINT;
 
       ByteArrayOutputStream compilation = new ByteArrayOutputStream(model.length + setSizeCommand.length + size.length + correction.length + data.length + storeData.length + print.length);
