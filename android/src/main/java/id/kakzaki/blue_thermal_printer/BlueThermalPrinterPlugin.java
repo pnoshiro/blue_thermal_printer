@@ -353,7 +353,10 @@ public class BlueThermalPrinterPlugin implements FlutterPlugin, ActivityAware,Me
       case "printQRcode":
         if (arguments.containsKey("textToQR")) {
           String textToQR = (String) arguments.get("textToQR");
-          printQRcode(result, textToQR);
+          int width = (int) arguments.get("width");
+          int height = (int) arguments.get("height");
+          int align = (int) arguments.get("align");
+          printQRcode(result, textToQR, width, height, align);
         } else {
           result.error("invalid_argument", "argument 'textToQR' not found", null);
         }
@@ -897,7 +900,7 @@ public class BlueThermalPrinterPlugin implements FlutterPlugin, ActivityAware,Me
     }
   }
 
-  private void printQRcode(Result result, String textToQr) {
+  private void printQRcode(Result result, String textToQr, int width, int height, int align) {
     if(THREAD == null) {
       result.error("write_error", "not connected", null);
       return;

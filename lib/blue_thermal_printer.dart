@@ -121,9 +121,13 @@ class BlueThermalPrinter {
       _channel.invokeMethod('printImageBytes', {'bytes': bytes});
 
   ///printQRcode(String textToQR, int width, int height, int align)
-  Future<dynamic> printQRcode(String textToQR) =>
+  Future<dynamic> printQRcode(
+          String textToQR, int width, int height, int align) =>
       _channel.invokeMethod('printQRcode', {
         'textToQR': textToQR,
+        'width': width,
+        'height': height,
+        'align': align
       });
 
   ///printLeftRight(String string1, String string2, int size,{String? charset, String? format})
