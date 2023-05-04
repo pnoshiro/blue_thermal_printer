@@ -130,17 +130,6 @@ class BlueThermalPrinter {
         'align': align
       });
 
-  ///printQRcode(String vendor, String textToQR, int width, int height, int align)
-  Future<dynamic> printQRcodeVendorSpecific(
-          String vendor, String textToQR, int width, int height, int align) =>
-      _channel.invokeMethod('printQRcode', {
-        'vendor': vendor,
-        'textToQR': textToQR,
-        'width': width,
-        'height': height,
-        'align': align
-      });
-
   ///printLeftRight(String string1, String string2, int size,{String? charset, String? format})
   Future<dynamic> printLeftRight(String string1, String string2, int size,
           {String? charset, String? format}) =>
