@@ -25,6 +25,7 @@ import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.Looper;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -360,6 +361,17 @@ public class BlueThermalPrinterPlugin implements FlutterPlugin, ActivityAware,Me
         } else {
           result.error("invalid_argument", "argument 'textToQR' not found", null);
         }
+        break;
+        case "printQRcodeVendorSpecific":
+          if(!arguments.containsKey("textToQR")) {result.error("invalid_argument", "argument 'textToQR' not found", null); break;}
+          if(!arguments.containsKey("vendor")) {result.error("invalid_argument", "argument 'vendor' not found", null); break;}
+          String textToQR = (String) arguments.get("textToQR");
+          String vendor = arguments.get("vendor");
+          int width = (int) arguments.get("vendor");
+          int width = (int) arguments.get("width");
+          int height = (int) arguments.get("height");
+          int align = (int) arguments.get("align");
+          printQRcodeVendorSpecific(result, vendor, textToQR, width, height, align);
         break;
       case "printLeftRight":
         if (arguments.containsKey("string1")) {
@@ -935,6 +947,63 @@ public class BlueThermalPrinterPlugin implements FlutterPlugin, ActivityAware,Me
       Log.e(TAG, ex.getMessage(), ex);
       result.error("write_error", ex.getMessage(), exceptionToString(ex));
     }
+  }
+
+  private void printQRCodeVendorSpecific(Result result, String vendor, String textToQR, int width, int height, int align) {
+    if (THREAD == null) {
+      result.error("write_error", "not connected", null);
+      return;
+    }
+    try {
+      switch (align) {
+        case 0:
+          // left align
+          THREAD.write(PrinterCommands.ESC_ALIGN_LEFT);
+          break;
+        case 1:
+          // center align
+          THREAD.write(PrinterCommands.ESC_ALIGN_CENTER);
+          break;
+        case 2:
+          // right align
+          THREAD.write(PrinterCommands.ESC_ALIGN_RIGHT);
+          break;
+      }
+      switch(vendor.toUpperCase())
+      {
+        case "BIXOLON": printQRCodeBixolon(result, textToQR, width, height, align);
+        default: printQRcode(result, textToQR, width, height, align);
+      }
+    } catch (Exception ex) {
+      Log.e(TAG, ex.getMessage(), ex);
+      result.error("write_error", ex.getMessage(), exceptionToString(ex));
+    }
+  }
+
+    private void printQRCodeBixolon(Result result, String textToQR, int width, int height, int align)
+    {
+      byte[] model = PrinterCommands.BIXOLON_QR_MODEL_2;
+      byte[] setSizeCommand = PrinterCommands.BIXOLON_QR_DOT_SIZE;
+      byte[] size = {0x04};
+      byte[] correction = PrinterCommands.BIXOLON_QR_ERROR_CORRECTION_LEVEL_L;
+      byte[] data = textToQR.getBytes();
+      byte[] storeData = PrinterCommands.BIXOLON_QR_SAVE_STORAGE;
+      storeData[3] = textToQR.length() & 0xFF;
+      storeData[4] = (textToQR.length() >> 8) & 0xFF;
+      byte[] print = PrinterCommands.BIXOLON_QR_ENCODE_PRINT;
+
+      ByteArrayOutputStream compilation = new ByteArrayOutputStream(model.length + setSizeCommand.length + size.length + correction.length + data.length + storeData.length + print.length);
+      compilation.write(model);
+      compilation.write(setSizeCommand);
+      compilation.write(size);
+      compilation.write(correction);
+      compilation.write(data);
+      compilation.write(storeData);
+      compilation.write(print);
+
+      THREAD.write(compilation.toByteArray());
+
+      result.success(true);
   }
 
   private class ConnectedThread extends Thread {
