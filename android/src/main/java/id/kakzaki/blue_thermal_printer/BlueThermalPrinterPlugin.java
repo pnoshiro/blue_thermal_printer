@@ -900,7 +900,26 @@ public class BlueThermalPrinterPlugin implements FlutterPlugin, ActivityAware,Me
     }
   }
 
-  private void printQRcode(Result result, String textToQR, int width, int height, int align) {
+  private void printQRcode(Result result, String textToQr) {
+    if(THREAD == null) {
+      result.error("write_error", "not connected", null);
+      return;
+    }
+    try {
+      THREAD.write(PrinterCommands.BIXOLON_QR_MODEL_2);
+      THREAD.write(PrinterCommands.BIXOLON_QR_DOT_SIZE);
+      THREAD.write(PrinterCommands.BIXOLON_QR_ERROR_CORRECTION_LEVEL_M);
+      THREAD.write(PrinterCommands.BIXOLON_QR_SAVE_STORAGE);
+      THREAD.write(textToQr.getBytes());
+      THREAD.write(PrinterCommands.BIXOLON_QR_ENCODE_PRINT);
+      result.success(true);
+    } catch (Exception ex) {
+      Log.e(TAG, ex.getMessage(), ex);
+      result.error("write_error", ex.getMessage(), exceptionToString(ex));
+    }
+  }
+
+  /*private void printQRcode(Result result, String textToQR, int width, int height, int align) {
     MultiFormatWriter multiFormatWriter = new MultiFormatWriter();
     if (THREAD == null) {
       result.error("write_error", "not connected", null);
@@ -935,7 +954,9 @@ public class BlueThermalPrinterPlugin implements FlutterPlugin, ActivityAware,Me
       Log.e(TAG, ex.getMessage(), ex);
       result.error("write_error", ex.getMessage(), exceptionToString(ex));
     }
-  }
+  }*/
+
+
 
   private class ConnectedThread extends Thread {
     private final BluetoothSocket mmSocket;
