@@ -979,7 +979,7 @@ public class BlueThermalPrinterPlugin implements FlutterPlugin, ActivityAware,Me
     }
   }
 
-    private void printQRCodeBixolon(Result result, String textToQR, int width, int height, int align)
+    private void printQRCodeBixolon(Result result, String textToQR, int width, int height, int align) throws IOException
     {
       byte[] model = PrinterCommands.BIXOLON_QR_MODEL_2;
       byte[] setSizeCommand = PrinterCommands.BIXOLON_QR_DOT_SIZE;
