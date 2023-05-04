@@ -71,8 +71,6 @@ class TestPrint {
         bluetooth.printNewLine();
         bluetooth.printCustom("Thank You", Size.bold.val, Align.center.val);
         bluetooth.printNewLine();
-        bluetooth.printQRcode(
-            "Insert Your Own Text to Generate", 200, 200, Align.center.val);
         bluetooth.printNewLine();
         bluetooth.printNewLine();
         bluetooth
