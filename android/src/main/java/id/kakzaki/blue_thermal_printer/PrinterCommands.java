@@ -29,7 +29,7 @@ public class PrinterCommands {
 
     public static final byte[] SELECT_CYRILLIC_CHARACTER_CODE_TABLE = {ESC, 0x74, 0x11};
 
-    public static final byte[] SELECT_BIT_IMAGE_MODE = {ESC, 0x2A, 0x21, 0xFF, 0x00 }; //{0x1B, 0x2A, 33, 0, 2};
+    public static final byte[] SELECT_BIT_IMAGE_MODE = {ESC, 0x2A, 0x21, (byte)0xFF, 0x00 }; //{0x1B, 0x2A, 33, 0, 2};
     public static final byte[] SET_LINE_SPACING = {ESC, 0x33};
 
     public static final byte[] TRANSMIT_DLE_PRINTER_STATUS = {DLE, EOT, 0x01};
