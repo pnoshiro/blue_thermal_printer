@@ -125,9 +125,6 @@ class BlueThermalPrinter {
           String textToQR, int width, int height, int align) =>
       _channel.invokeMethod('printQRcode', {
         'textToQR': textToQR,
-        'width': width,
-        'height': height,
-        'align': align
       });
 
   ///printLeftRight(String string1, String string2, int size,{String? charset, String? format})
