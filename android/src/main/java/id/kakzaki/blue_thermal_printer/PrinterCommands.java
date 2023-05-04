@@ -69,20 +69,4 @@ public class PrinterCommands {
     /**************** Control *******************/
     static final byte[] INIT_SEQ = new byte[] {ESC, 0x40};
     /*********************************************/
-
-    /**************** Vendor-specific *******************/
-    
-    /* BIXOLON  */
-
-    static final byte[] BIXOLON_QR_MODEL_1 = new byte[] {GS, 0x28, 0x6B, 0x04, 0x00, 0x31, 0x41, 0x31, 0x00};
-    static final byte[] BIXOLON_QR_MODEL_2 = new byte[] {GS, 0x28, 0x6B, 0x04, 0x00, 0x31, 0x41, 0x32, 0x00};
-    static final byte[] BIXOLON_QR_DOT_SIZE = new byte[]{GS, 0x28, 0x6B, 0x03, 0x00, 0x31, 0x43}; //Size is next bit
-    static final byte[] BIXOLON_QR_ERROR_CORRECTION_LEVEL_L = new byte[]{GS, 0x28, 0x6B, 0x03, 0x00, 0x31, 0x45, 0x30};
-    static final byte[] BIXOLON_QR_ERROR_CORRECTION_LEVEL_M = new byte[]{GS, 0x28, 0x6B, 0x03, 0x00, 0x31, 0x45, 0x31};
-    static final byte[] BIXOLON_QR_ERROR_CORRECTION_LEVEL_Q = new byte[]{GS, 0x28, 0x6B, 0x03, 0x00, 0x31, 0x45, 0x32};
-    static final byte[] BIXOLON_QR_ERROR_CORRECTION_LEVEL_H = new byte[]{GS, 0x28, 0x6B, 0x03, 0x00, 0x31, 0x45, 0x33};
-    static final byte[] BIXOLON_QR_SAVE_STORAGE = new byte[]{GS, 0x28, 0x6B, 0x00, 0x00, 0x31, 0x50, 0x30}; //bytes 0x03 and 0x04 must be replaced
-    static final byte[] BIXOLON_QR_ENCODE_PRINT = new byte[]{GS, 0x28, 0x6B, 0x03, 0x00, 0x31, 0x51, 0x30};
-
-    /*********************************************/
 }
