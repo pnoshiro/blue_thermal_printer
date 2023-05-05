@@ -81,6 +81,10 @@ class BlueThermalPrinter {
   ///disconnect()
   Future<dynamic> disconnect() => _channel.invokeMethod('disconnect');
 
+  ///initialize()
+  Future<dynamic> initializePrinter() =>
+      _channel.invokeMethod('initializePrinter');
+
   ///write(String message)
   Future<dynamic> write(String message) =>
       _channel.invokeMethod('write', {'message': message});

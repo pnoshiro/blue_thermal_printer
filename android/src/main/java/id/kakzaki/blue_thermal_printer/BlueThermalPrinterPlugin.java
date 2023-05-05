@@ -285,6 +285,10 @@ public class BlueThermalPrinterPlugin implements FlutterPlugin, ActivityAware,Me
         disconnect(result);
         break;
 
+      case "initializePrinter":
+        initializePrinter(result);
+        break;
+
       case "write":
         if (arguments.containsKey("message")) {
           String message = (String) arguments.get("message");
@@ -565,6 +569,10 @@ public class BlueThermalPrinterPlugin implements FlutterPlugin, ActivityAware,Me
           result.error("disconnection_error", ex.getMessage(), exceptionToString(ex));
         }
       });
+  }
+
+  private void initializePrinter(Result result) {
+    this.writeBytes(result, PrinterCommands.INIT_SEQ);
   }
 
   /**
